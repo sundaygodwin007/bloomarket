@@ -11,19 +11,22 @@
     </style>
 </head>
 <body>
-    <div id="root" class="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
-        <!-- Header -->
+
+        <div id="root" class=" min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+            <!-- Header -->
         <header class="bg-white shadow-md fixed top-0 left-0 right-0 z-40">
             <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-2">
-                        <span class="text-2xl">🌿</span>
+                        <!-- <span class="text-2xl">🌿 Bloomland</span> -->
                         <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                             Bloomland
                         </h1>
                     </div>
+
+                    <!--  -->
                     
-                    <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class=" flex items-center sell space-x-2 sm:space-x-3">
                         <button id="sellBtn"
                             class="bg-emerald-600 text-white px-2 sm:px-4 py-2 rounded-lg hover:bg-emerald-700 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center space-x-1 sm:space-x-2 text-sm sm:text-base"
                         >
@@ -33,7 +36,7 @@
                         </button>
                         
                         <button id="cartBtn"
-                            class="relative bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center space-x-1 sm:space-x-2 cursor-pointer"
+                            class="cart relative bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center space-x-1 sm:space-x-2 cursor-pointer"
                             style="cursor: pointer;"
                         >
                             <span style="cursor: pointer;">🛒</span>
@@ -56,7 +59,7 @@
         </header>
 
         <!-- Fixed Filter Button -->
-        <div id="filterButtonContainer" class="fixed top-6 left-6 z-50">
+        <div id="filterButtonContainer" class="filter fixed top-6 left-6 z-50">
             <button id="filterToggleBtn" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 active:bg-emerald-800 transition-all duration-300 flex items-center space-x-2 shadow-md hover:shadow-xl">
                 <span class="hamburger-icon transition-transform duration-500 ease-in-out" id="hamburgerIcon">
                     <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -606,6 +609,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="script.js"></script>
 </body>
