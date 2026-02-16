@@ -134,12 +134,12 @@ function renderProducts() {
 
     noResults.classList.add('hidden');
     grid.innerHTML = products.map(product => `
-        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer" data-product-id="${product.id}">
-            <div class="bg-gradient-to-br from-green-100 to-emerald-100 p-8 sm:p-12 lg:p-16 flex items-center justify-center" style="height: 250px;">
+        <div class="product-card bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer" data-product-id="${product.id}">
+            <div class="bg-gradient-to-br from-green-100 to-emerald-100 p-6 sm:p-8 lg:p-12 flex items-center justify-center" style="height: 250px;">
                 <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-transform duration-300" />
             </div>
             
-            <div class="p-3 sm:p-4">
+            <div class="p-4 sm:p-6 card-content">
                 <div class="flex justify-between items-start mb-2">
                     <div class="flex-1 min-w-0">
                         <h3 class="font-bold text-base sm:text-lg text-gray-800 truncate">${product.name}</h3>
@@ -151,7 +151,7 @@ function renderProducts() {
                     </div>
                 </div>
                 
-                <p class="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-2">${product.description}</p>
+                <p class="text-sm sm:text-base text-gray-600 mb-3 line-clamp-2">${product.description}</p>
                 
                 <div class="flex justify-between items-center">
                     <div>
@@ -159,10 +159,17 @@ function renderProducts() {
                         <p class="text-xs text-gray-500">${product.stock} in stock</p>
                     </div>
                     
-                    <button class="addToCartBtn bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center space-x-1 sm:space-x-2 font-medium text-sm sm:text-base" data-product-id="${product.id}">
-                        <span>➕</span>
-                        <span>Add</span>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button class="addToCartBtn product-action-btn bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center space-x-1 sm:space-x-2 font-medium text-sm sm:text-base" data-product-id="${product.id}">
+                            <span>➕</span>
+                            <span>Add</span>
+                        </button>
+
+                        <button class="buyNowBtn product-action-btn bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center space-x-1 sm:space-x-2 font-medium text-sm sm:text-base" data-product-id="${product.id}">
+                            <span>💳</span>
+                            <span>Buy</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -171,7 +178,7 @@ function renderProducts() {
     // Attach event listeners
     document.querySelectorAll('[data-product-id]').forEach(el => {
         el.addEventListener('click', (e) => {
-            if (!e.target.closest('.addToCartBtn')) {
+            if (!e.target.closest('.addToCartBtn') && !e.target.closest('.buyNowBtn')) {
                 const productId = parseInt(el.dataset.productId);
                 openProductModal(productId);
             }
@@ -184,6 +191,19 @@ function renderProducts() {
             const productId = parseInt(btn.dataset.productId);
             const product = initialProducts.find(p => p.id === productId);
             addToCart(product);
+        });
+    });
+
+    document.querySelectorAll('.buyNowBtn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const productId = parseInt(btn.dataset.productId);
+            const product = initialProducts.find(p => p.id === productId);
+            addToCart(product);
+            // Open checkout directly (skip showing cart sidebar)
+            setTimeout(() => {
+                openCheckoutModal();
+            }, 150);
         });
     });
 }
@@ -411,6 +431,9 @@ function closeProductModal() {
 
 function openAdvertiseModal() {
     const modal = document.getElementById('advertiseModal');
+    // hide filter button while advertise modal is open
+    const filterBtnContainer = document.getElementById('filterButtonContainer');
+    if (filterBtnContainer) filterBtnContainer.classList.add('hidden');
     modal.classList.remove('hidden');
     state.advertiseComplete = false;
     document.getElementById('advertiseForm').style.display = 'block';
@@ -433,6 +456,9 @@ function closeAdvertiseModal() {
     modal.querySelector('.bg-white').classList.add('scale-95');
     setTimeout(() => {
         modal.classList.add('hidden');
+        // show filter button when advertise modal closes
+        const filterBtnContainer = document.getElementById('filterButtonContainer');
+        if (filterBtnContainer) filterBtnContainer.classList.remove('hidden');
     }, 300);
 }
 
@@ -458,6 +484,9 @@ function openCheckoutModal() {
         
         // Open checkout modal
         const modal = document.getElementById('checkoutModal');
+        // hide filter button while checkout is open
+        const filterBtnContainer = document.getElementById('filterButtonContainer');
+        if (filterBtnContainer) filterBtnContainer.classList.add('hidden');
         modal.classList.remove('hidden');
         renderCheckoutSummary();
         state.showCheckout = true;
@@ -480,6 +509,9 @@ function closeCheckoutModal() {
     setTimeout(() => {
         modal.classList.add('hidden');
         state.showCheckout = false;
+        // show filter button when checkout closes
+        const filterBtnContainer = document.getElementById('filterButtonContainer');
+        if (filterBtnContainer) filterBtnContainer.classList.remove('hidden');
     }, 300);
 }
 
@@ -501,6 +533,9 @@ function toggleCart() {
             cartSidebar.classList.add('opacity-100');
             cartPanel.classList.remove('translate-x-full');
             cartPanel.classList.add('translate-x-0');
+            // hide filter button while cart is open
+            const filterBtnContainer = document.getElementById('filterButtonContainer');
+            if (filterBtnContainer) filterBtnContainer.classList.add('hidden');
         }, 10);
         console.log('Cart opened - should be visible now');
     } else {
@@ -514,6 +549,9 @@ function toggleCart() {
         setTimeout(() => {
             cartSidebar.classList.add('hidden');
             cartSidebar.style.display = 'none';
+            // show filter button when cart closed
+            const filterBtnContainer = document.getElementById('filterButtonContainer');
+            if (filterBtnContainer) filterBtnContainer.classList.remove('hidden');
         }, 500);
         console.log('Cart closed');
     }
@@ -557,6 +595,58 @@ function closeFilters() {
     setTimeout(() => {
         filtersSidebar.classList.add('hidden');
     }, 500);
+}
+
+// Close open UI when clicking outside of them
+function handleGlobalClickOutside(e) {
+    const clickedInside = (el) => e.target === el || el.contains(e.target);
+
+    // Filters sidebar
+    const filtersSidebar = document.getElementById('filtersSidebar');
+    const filterToggleBtn = document.getElementById('filterToggleBtn');
+    if (filtersSidebar && !filtersSidebar.classList.contains('hidden')) {
+        if (!clickedInside(filtersSidebar) && !clickedInside(filterToggleBtn)) {
+            closeFilters();
+        }
+    }
+
+    // Cart sidebar
+    const cartSidebar = document.getElementById('cartSidebar');
+    const cartPanel = document.getElementById('cartSidebarPanel');
+    const cartBtn = document.getElementById('cartBtn');
+    if (cartSidebar && !cartSidebar.classList.contains('hidden')) {
+        if (!clickedInside(cartPanel) && !clickedInside(cartBtn)) {
+            // close cart
+            if (state.showCart) toggleCart();
+        }
+    }
+
+    // Product modal
+    const productModal = document.getElementById('productModal');
+    if (productModal && !productModal.classList.contains('hidden')) {
+        const modalContent = productModal.querySelector('.bg-white');
+        if (!clickedInside(modalContent)) {
+            closeProductModal();
+        }
+    }
+
+    // Advertise modal
+    const advertiseModal = document.getElementById('advertiseModal');
+    if (advertiseModal && !advertiseModal.classList.contains('hidden')) {
+        const advContent = advertiseModal.querySelector('.bg-white');
+        if (!clickedInside(advContent)) {
+            closeAdvertiseModal();
+        }
+    }
+
+    // Checkout modal
+    const checkoutModal = document.getElementById('checkoutModal');
+    if (checkoutModal && !checkoutModal.classList.contains('hidden')) {
+        const coContent = checkoutModal.querySelector('.bg-white');
+        if (!clickedInside(coContent)) {
+            closeCheckoutModal();
+        }
+    }
 }
 
 // Form Handlers
@@ -749,8 +839,14 @@ function init() {
     });
 
     // Event Listeners - Mobile Filters
-    document.getElementById('filterToggleBtn')?.addEventListener('click', toggleFilters);
-    document.getElementById('filterCloseBtn')?.addEventListener('click', closeFilters);
+    const filterToggleBtnEl = document.getElementById('filterToggleBtn');
+    if (filterToggleBtnEl) {
+        filterToggleBtnEl.addEventListener('click', (e) => { e.stopPropagation(); toggleFilters(); });
+    }
+    const filterCloseBtnEl = document.getElementById('filterCloseBtn');
+    if (filterCloseBtnEl) {
+        filterCloseBtnEl.addEventListener('click', (e) => { e.stopPropagation(); closeFilters(); });
+    }
 
     // Close filters when clicking on a category
     document.addEventListener('click', (e) => {
@@ -793,7 +889,10 @@ function init() {
     });
 
     // Event Listeners - Advertise Modal
-    document.getElementById('sellBtn').addEventListener('click', openAdvertiseModal);
+    const sellBtnEl = document.getElementById('sellBtn');
+    if (sellBtnEl) {
+        sellBtnEl.addEventListener('click', (e) => { e.stopPropagation(); openAdvertiseModal(); });
+    }
 
     document.querySelectorAll('.closeAdvertiseModal').forEach(btn => {
         btn.addEventListener('click', closeAdvertiseModal);
@@ -822,6 +921,9 @@ function init() {
     document.getElementById('checkoutFormElement').addEventListener('submit', handleCheckoutSubmit);
     document.getElementById('checkoutFormElement').addEventListener('change', handleFormInputChange);
     document.getElementById('checkoutFormElement').addEventListener('input', handleFormInputChange);
+
+    // Global click-out listener to close open UI panels/modals
+    document.addEventListener('click', handleGlobalClickOutside);
 }
 
 // Start App

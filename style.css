@@ -1413,3 +1413,51 @@ html, body {
     top: 0;
     bottom: 0;
 }
+
+/* Product card action buttons padding and transitions */
+.product-action-btn {
+    padding: 0.55rem 0.9rem;
+}
+
+/* Slight lift/rotate for active filter button to emphasize transition */
+#filterToggleBtn.active {
+    transform: translateY(-2px) rotate(3deg);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Mobile spacing for cards and buttons */
+@media (max-width: 640px) {
+    .product-card { margin-bottom: 0.75rem; }
+    .product-card .card-content { padding: 0.9rem; }
+    .product-action-btn { padding: 0.6rem 1rem; }
+    .product-action-btn + .product-action-btn { margin-left: 0.5rem; }
+    /* Add spacing below header area so buttons/text don't touch edges */
+    #filterButtonContainer { left: 0.75rem; top: 0.75rem; }
+}
+
+/* Spacing around Advertise (Sell) and Checkout modals for comfort on mobile/desktop */
+#advertiseModal .bg-white,
+#checkoutModal .bg-white {
+    margin: 1rem;
+    padding: 1rem;
+    max-width: calc(100% - 2rem);
+    box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+    #advertiseModal .bg-white,
+    #checkoutModal .bg-white {
+        margin: 1.5rem;
+        padding: 1.25rem;
+        max-width: 48rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    #advertiseModal .bg-white,
+    #checkoutModal .bg-white {
+        margin: 2rem auto;
+        padding: 1.5rem 2rem;
+        max-width: 56rem;
+    }
+}
