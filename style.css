@@ -1461,3 +1461,36 @@ html, body {
         max-width: 56rem;
     }
 }
+
+/* Spacing and padding for Product Detail (View More) modal */
+#productModal .bg-white {
+    margin: 1rem;
+    padding: 1rem;
+    max-width: calc(100% - 2rem);
+    box-sizing: border-box;
+}
+
+#productModal .bg-white h2,
+#productModal .bg-white h3,
+#productModal .bg-white p,
+#productModal .bg-white .space-y-4,
+#productModal .bg-white .space-y-2 {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+@media (min-width: 640px) {
+    #productModal .bg-white {
+        margin: 1.5rem;
+        padding: 1.25rem;
+        max-width: 48rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    #productModal .bg-white {
+        margin: 2rem auto;
+        padding: 1.5rem 2rem;
+        max-width: 64rem;
+    }
+}

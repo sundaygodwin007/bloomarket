@@ -179,6 +179,7 @@ function renderProducts() {
     document.querySelectorAll('[data-product-id]').forEach(el => {
         el.addEventListener('click', (e) => {
             if (!e.target.closest('.addToCartBtn') && !e.target.closest('.buyNowBtn')) {
+                e.stopPropagation();
                 const productId = parseInt(el.dataset.productId);
                 openProductModal(productId);
             }
@@ -408,6 +409,10 @@ function openProductModal(productId) {
         });
     });
 
+    // hide filter button when product modal opens
+    const filterBtnContainer = document.getElementById('filterButtonContainer');
+    if (filterBtnContainer) filterBtnContainer.classList.add('hidden');
+
     modal.classList.remove('hidden');
     setTimeout(() => {
         modal.classList.remove('opacity-0');
@@ -425,6 +430,9 @@ function closeProductModal() {
     modal.querySelector('.bg-white').classList.add('scale-95');
     setTimeout(() => {
         modal.classList.add('hidden');
+        // show filter button when product modal closes
+        const filterBtnContainer = document.getElementById('filterButtonContainer');
+        if (filterBtnContainer) filterBtnContainer.classList.remove('hidden');
     }, 300);
     state.selectedProduct = null;
 }
