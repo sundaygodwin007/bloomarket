@@ -188,6 +188,7 @@ function renderProducts() {
 
     document.querySelectorAll('.addToCartBtn').forEach(btn => {
         btn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             const productId = parseInt(btn.dataset.productId);
             const product = initialProducts.find(p => p.id === productId);
@@ -197,6 +198,7 @@ function renderProducts() {
 
     document.querySelectorAll('.buyNowBtn').forEach(btn => {
         btn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             const productId = parseInt(btn.dataset.productId);
             const product = initialProducts.find(p => p.id === productId);
@@ -288,7 +290,9 @@ function renderCart() {
 
         // Attach event listeners
         document.querySelectorAll('.quantityBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const productId = parseInt(btn.dataset.productId);
                 const action = btn.dataset.action;
                 if (action === 'increase') {
@@ -300,7 +304,9 @@ function renderCart() {
         });
 
         document.querySelectorAll('.removeBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const productId = parseInt(btn.dataset.productId);
                 removeFromCart(productId);
             });
