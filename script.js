@@ -153,13 +153,13 @@ function renderProducts() {
                 
                 <p class="text-sm sm:text-base text-gray-600 mb-3 line-clamp-2">${product.description}</p>
                 
-                <div class="flex justify-between items-center">
-                    <div>
+                <div class="price-actions flex justify-between items-center">
+                    <div class="product-price">
                         <p class="text-xl sm:text-2xl font-bold text-green-600">$${product.price}</p>
                         <p class="text-xs text-gray-500">${product.stock} in stock</p>
                     </div>
-                    
-                    <div class="flex items-center gap-2">
+
+                    <div class="actions-row flex items-center gap-2">
                         <button class="addToCartBtn product-action-btn bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center space-x-1 sm:space-x-2 font-medium text-sm sm:text-base" data-product-id="${product.id}">
                             <span>➕</span>
                             <span>Add</span>

@@ -1494,3 +1494,22 @@ html, body {
         max-width: 64rem;
     }
 }
+
+/* Desktop layout: center price and move action buttons under price */
+@media (min-width: 1024px) {
+    .product-card .price-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .product-card .product-price {
+        text-align: center;
+    }
+
+    .product-card .actions-row {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+}
